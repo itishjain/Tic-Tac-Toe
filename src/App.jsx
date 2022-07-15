@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Board from "./Components/Board";
+import History from "./Components/History";
+import StatusMessage from "./Components/StatusMessage";
 import "./Styles/root.scss";
 import { Winner } from "./winning_logic";
 
@@ -19,10 +21,6 @@ const Application = () => {
 
   const winner = Winner(current.board);
 
-  const message = winner
-    ? `Winner is ${winner}`
-    : `Next Turn of player  ${current.isXNext ? "X" : "O"} `;
-
   const handleSquareClick = (position) => {
     if (current.board[position] || winner) {
       return;
@@ -40,15 +38,28 @@ const Application = () => {
     setCurrMove((prev) => prev + 1);
   };
 
+  const historyOf = (move) => {
+    setCurrMove(move);
+  };
   return (
     <div className="app">
       {/* <></> This is called react-fragment can also be written as <React.Fragment></React.Fragment>  */}
       {/* It looks like HTML syntax but it is not. It's jsx and its a react syntax.
               It is backword compatible with HTML*/}
       {/* We can also put components inside div rather than using React Fragment(<></>) */}
-      <h1 className="heading">Tic Tac Toe</h1>
-      <h2>{message}</h2>
+      <h1
+        className="heading"
+        style={{
+          color: "deepskyblue",
+          fontSize: 60,
+          textDecorationLine: "underline",
+        }}
+      >
+        Tic - Tac - Toe
+      </h1>
+      <StatusMessage winner={winner} current={current} />
       <Board board={current.board} handleSquareClick={handleSquareClick} />
+      <History history={history} historyOf={historyOf} currMove={currMove} />
     </div>
   );
 };
